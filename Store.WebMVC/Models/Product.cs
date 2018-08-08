@@ -6,6 +6,7 @@ using System.Web;
 
 namespace Store.WebMVC.Models
 {
+    //place access to a foreign key?
     public class Product
     {
         [Key]

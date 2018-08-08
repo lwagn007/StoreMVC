@@ -10,6 +10,7 @@ using Store.WebMVC.Models;
 
 namespace Store.WebMVC.Controllers
 {
+    // would need to create a method that would allow product controller to see transaction total?
     [Authorize]
     public class ProductController : Controller
     {

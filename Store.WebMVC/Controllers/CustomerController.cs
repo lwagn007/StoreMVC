@@ -16,8 +16,33 @@ namespace Store.WebMVC.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Customer
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string searchString)
         {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            /* ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date"; */
+            var customers = from c in db.Customers
+                           select c;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(c => c.LastName.Contains(searchString)
+                                        || c.FirstName.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(c => c.LastName);
+                    break;
+                /*case "Date":
+                      customers = customers.OrderBy(c=> c.TransactionDate);
+                      break;
+                  case "date_desc": 
+                      students = students.OrderByDescending(c=> c.TransactionDate);
+                      break;*/
+                default:
+                    customers = customers.OrderByDescending(c => c.FirstName);
+                    break;
+            }
             return View(db.Customers.ToList());
         }
 
